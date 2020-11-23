@@ -1,0 +1,12 @@
+<ul class="pagination justify-content-center mb-4">
+  {% if page.has_previous %}
+    <li class="page-item">     
+      <a href="?page={{ page.previous_page_number }}">Previous</a>
+    {% endif %}     
+    </li>    
+    {% if page.has_next %}
+    <li class="page-item disabled">           
+    <a href="?page={{ page.next_page_number }}">Next</a>
+    {% endif %}
+    </li>
+</ul>

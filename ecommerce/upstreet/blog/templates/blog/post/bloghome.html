@@ -1,0 +1,43 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <!-- Blog Entries Column -->
+    <div class="col-md-8">
+
+      <h1 class="my-4">Blog        
+      </h1>
+
+      <!-- Blog Post -->
+      {% for post in posts %}
+      <!-- Blog Post -->
+      <div class="card mb-4">          
+        <img class="img-fluid rounded" src="{% if post.image %} {{ post.image.url }} {% else %} {%static "images/no_image.png" %} {% endif %}" style="width:759px;height:300px;"">
+        
+        <div class="card-body">
+          <h2 class="card-title">{% block title %} {{ post.title }}{% endblock %}</h2>
+          <p class="card-text">{{post.body|truncatewords:30|linebreaks}}</p>
+          <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More &rarr;</a>
+        </div>
+        <div class="card-footer text-muted">
+          Published {{ post.publish }} by {{ post.author }}          
+        </div>
+        
+      </div>
+      
+      {% endfor %}
+
+      <!-- Pagination -->
+
+    
+
+      <ul class="pagination justify-content-center mb-4">
+        <li class="page-item">
+          {% include "pagination.html" with page=posts %}
+        </li>
+      </ul>
+
+    </div>
+
+{% endblock %}
