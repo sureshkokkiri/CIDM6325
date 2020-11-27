@@ -1,0 +1,68 @@
+{% extends "store/main.html" %}
+{% load static %}
+
+
+{% block title %}
+  {{ product.name }}
+{% endblock %}
+
+
+{% block content %}
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">         
+        <div class="card mt-4">        
+          <a href="{{ product.category.get_absolute_url }}">
+           Retun to {{ product.category }} Category
+          </a>
+        </div>
+        <div class="card mt-4">          
+            <img class="card-img-top img-fluid" src={% static "images/limited-time-offers-4.png" %} >             
+          </div>
+
+          <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+              Add to Cart
+            </div>
+            <div class="card-body">
+              <p class="price">Price ${{ product.price }}</p>
+              <form action="{% url "cart:cart_add" product.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <input type="submit" value="Add to cart">
+              </form>
+              
+            </div>
+          </div>
+        </div>
+        
+
+
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+        <div class="card mt-4">          
+          <img class="card-img-top img-fluid" src="{% if product.image %}{{ product.image.url }}{% else %}
+          {% static "img/no_image.png" %}{% endif %}" alt="">
+          
+          <div class="card-body">
+            <h3 class="card-title">{{ product.name }}</h3>
+            <h4>${{ product.price }}</h4>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque facere, soluta. Totam id dolores, sint aperiam sequi pariatur praesentium animi perspiciatis molestias iure, ducimus!</p>
+            <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+            4.0 stars
+          </div>
+        </div>
+        <!-- /.card -->
+
+       
+        <!-- /.card -->
+      </div>
+      <!-- /.col-lg-9 -->
+    </div>
+  </div>
+  <!-- /.container -->  
+  {% endblock %}
+  

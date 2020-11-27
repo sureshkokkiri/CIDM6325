@@ -10,13 +10,13 @@ from . models import Post, Comment
 
 # Create your views here.
 
-def blog(request):
-    context = {}
-    return render(request, 'blog/post/bloghome.html', context)
+#def blog(request):
+#    context = {}
+#    return render(request, 'blog/post/bloghome.html', context)
 
-def blogpost(request):
-    context = {}
-    return render(request, 'blog/post/blogpost.html', context)
+#def blogpost(request):
+#    context = {}
+#    return render(request, 'blog/post/blogpost.html', context)
 
 def post_list(request):
     object_list=Post.published.all()

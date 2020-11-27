@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,8 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'store.apps.StoreConfig',
+    'store.apps.StoreConfig',    
+    'cart.apps.CartConfig',
+    'coupons.apps.CouponsConfig',
     'blog.apps.BlogConfig',
+
+    #'orders.apps.OrdersConfig',
+    #'payment.apps.PaymentConfig',
+
+    #'rosetta',    
+    #'localflavor',
+    
 ]
 
 MIDDLEWARE = [
@@ -58,7 +68,7 @@ ROOT_URLCONF = 'upstreet.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [''],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -66,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
             ],
         },
     },
@@ -141,3 +152,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static')
 ]
+
+
+# Session Stuff
+
+CART_SESSION_ID = 'cart'
+

@@ -45,12 +45,12 @@
                   {% with total_items=cart|length %}
                     {% if total_items > 0 %}
                      
-                       <a class="nav-link"  href="{% url "cart:cart_detail" %}"> 
+                      <!---- <a class="nav-link"  href="{% url "cart:cart_detail" %}"> --->
                         {{ total_items }} item{{ total_items|pluralize }},
                         ${{ cart.get_total_price }}
                       </a>
                     {% else %}                      
-                     <a class="nav-link" href="{% url "cart:cart_detail" %}">Empty Cart</a> 
+                     <!-- <a class="nav-link" href="{% url "cart:cart_detail" %}">Empty Cart</a> -->
                     {% endif %}
                   {% endwith %}     
       
@@ -63,14 +63,13 @@
   <!-- Page Content -->
  
     
-  {% block content %}
-        {% endblock %}   
+ <h5>test container heres</h5> 
   <!-- /.container -->
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Upstreetmarkets.com 2020</p>
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
     </div>
     <!-- /.container -->
   </footer>
