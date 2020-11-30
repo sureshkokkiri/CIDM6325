@@ -1,9 +1,8 @@
-{% extends "store/main.html" %}
+{% extends "cart/cbase1.html" %}
+
 {% load static %}
 
-
-
-{% block content %}
+<!---
 <div class="container">
   <div class="col-lg-20">
     <div class="row">
@@ -54,6 +53,7 @@
                
         {% endwith %}
       {% endfor %}
+
       {% if cart.coupon %}
       
         <tr>
@@ -114,11 +114,178 @@
   <div class="col-lg-20">
     <div class="card my-4">
           <span class="input-group-append">
-            <a href="{% url "store:product_list" %}" class="btn btn-secondary">CheckOut</a>                                       
+            <a href="{% url "store:product_list" %}" class="btn btn-secondary">Continue shopping</a>   
+            <a href="{% url "orders:order_create" %}" class="button">
+              Checkout
+            </a>                           
           </span>
         
       </div>
     </div>
   </div>
 </div>
+-->
+
+{% block content %}
+
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="{% static 'blog/home/css/cart.css' %}" rel="stylesheet">
+
+                
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">  
+
+    <!-- Blog Entries Column -->
+    <div class="col-md-8">         
+      <!-- Blog Post -->
+    </br>
+        <h5 class="card-header">Cart details</h5>       
+        <div class="card-body"> 
+            <div class="basket-labels">
+              <ul>
+                <li class="item item-heading">Item</li>
+                <li class="price">Price</li>
+                <li class="quantity">Quantity</li>
+                <li class="subtotal">Subtotal</li>
+              </ul>
+            </div>
+
+          {% for item in cart %}
+            {% with product=item.product %}
+            <div class="basket-product">
+              <div class="item">
+                <div class="product-image">
+                  <a href="{{ product.get_absolute_url }}">
+                    <img class="product-frame" src="{% if product.image %}{{ product.image.url }}
+                    {% else %}{% static "img/no_image.png" %}{% endif %}">              
+                  </a>
+                </div>
+                <div class="product-details">
+                  <h1><strong><span class="item-quantity">4</span> {{ product.name }}</strong></h1>                  
+                  <p><h1>Product Code - 232321939</h1></p>
+                </div>
+              </div>
+              <div class="price">{{ item.price }}</div>
+              <div class="quantity">
+               <!--  <input type="number" value="4" min="1" class="quantity-field"> -->
+                <form action="{% url "cart:cart_add" product.id %}" method="post">
+                  {{ item.update_quantity_form.quantity }}
+                  {{ item.update_quantity_form.override }}
+                  <input type="submit" value="Update" class="quantity-field">
+                  {% csrf_token %}
+                </form>
+              </div>
+              <div class="subtotal">{{ item.total_price }}</div>
+              <div class="remove">                
+                <form action="{% url "cart:cart_remove" product.id %}" method="post">
+                  <input type="submit" value="Remove" class="quantity-field">                  
+                  {% csrf_token %}
+                </form>                
+              </div>
+            </div>                   
+            {% endwith %}
+          {% endfor %}
+    
+        </div>  
+        
+        {% if recommended_products %}
+        <div class="recommendations cart">
+          <h3>People who bought this also bought</h3>
+          {% for p in recommended_products %}
+            <div class="item">
+              <a href="{{ p.get_absolute_url }}">
+                <img src="{% if p.image %}{{ p.image.url }}{% else %}
+                {% static "img/no_image.png" %}{% endif %}">
+              </a>
+              <p><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></p>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    
+      
+    </div>
+
+
+    <div class="col-md-4">         
+      <!-- Blog Post -->
+      <div class="card mb-4">   
+        </br>
+        <h5 class="card-header">Summary Cart details</h5>       
+        <div class="card-body">        
+          
+          <div class="summary-total-items"><span class="total-items"></span> Items in your Bag</div>
+          <div class="summary-subtotal">
+            
+            <div class="subtotal-title">Subtotal</div>
+            
+            <div class="subtotal-value final-value" id="basket-subtotal">{{ cart.get_total_price|floatformat:2 }}</div>
+                          
+                        
+          </div>
+          
+
+          {% if cart.coupon %}
+          <div class="summary-delivery">            
+          {% with code=cart.coupon.code discount=cart.coupon.discount %}
+            "{{ code }}" coupon ({{ discount }}% off)
+          {% endwith %}          
+            - ${{ cart.get_discount|floatformat:2 }}        
+          </div>
+          {% endif %}
+
+
+
+          <div class="summary-delivery">            
+              <form action="{% url "coupons:apply" %}" method="post">
+                {{ coupon_apply_form }}
+                <input class="checkout-cta" type="submit" value="Apply">
+                {% csrf_token %}
+              </form>            
+          </div>
+
+
+          <div class="summary-total">
+            <div class="total-title">Total</div>
+            <div class="total-value final-value" id="basket-total"> {{ cart.get_total_price_after_discount|floatformat:2 }}</div>
+          </div>
+          <div class="summary-checkout">
+            <a href="{% url "orders:order_create" %}">
+            <button class="checkout-cta">Go to Secure Checkout</button>
+              
+            </a>    
+          </div>
+
+        </br>
+          <a href="{% url "store:product_list" %}" >Continue shopping</a>  
+        </div>           
+      </div>
+    </div>
+
+
+
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container -->
+
 {% endblock %}
+
+
+
+
+
+
+  
+
+
+ 
+     
+
+        
+        
+

@@ -1,33 +1,123 @@
-{% extends "shop/base.html" %}
-{% load i18n %}
-{% block title %}
-{% trans "Checkout" %}
-{% endblock %}
+{% extends "cart/cbase1.html" %}
+
+{% load static %}
+
+
+
 {% block content %}
-  <h1>{% trans "Checkout" %}</h1>
-  <div class="order-info">
-    <h3>{% trans "Your order" %}</h3>
-    <ul>
-      {% for item in cart %}
-        <li>
-          {{ item.quantity }}x {{ item.product.name }}
-           <span>${{ item.total_price|floatformat:2 }}</span>
-        </li>
-      {% endfor %}
-      {% if cart.coupon %}
-        <li>
-          {% blocktrans with code=cart.coupon.code discount=cart.coupon.discount %}
-            "{{ code }}" ({{ discount }}% off)
-          {% endblocktrans %}
-          <span class="neg">- ${{ cart.get_discount|floatformat:2 }}</span>
-        </li>
-      {% endif %}
-    </ul>
-    <p>{% trans "Total" %}: ${{cart.get_total_price_after_discount|floatformat:2 }}</p>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="{% static 'blog/home/css/cart.css' %}" rel="stylesheet">
+
+                
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">  
+    <!-- Blog Entries Column -->
+    <div class="col-md-9">         
+      <!-- Blog Post -->
+    </br>
+        <h5 class="card-header">Order details</h5>       
+        <div class="card-body"> 
+            <div class="basket-labels">
+              <ul>
+                <li class="item item-heading">Item</li>
+                <li class="price">Price</li>                
+                <li class="quantity">Quantity</li>
+                <li class="subtotal">Subtotal</li>
+              </ul>
+            </div>
+            
+            <div class="basket-product">
+
+              {% for item in cart %}
+              <div class="item">                
+                <div class="product-details">
+                  <h1><strong> {{ item.product.name }} </strong></h1>                                    
+                </div>
+              </div>
+              <div class="price">{{ item.price|floatformat:2 }}</div>
+              
+              <div class="quantity">
+
+                {{ item.quantity }} 
+                        
+              </div>
+
+
+              <div class="subtotal">
+
+                {{ item.total_price|floatformat:2 }}
+
+              </div>    
+              {% endfor %}
+            </br>
+
+            </div>  
+        </div>  
+    </div>
   </div>
-  <form method="post" class="order-form">
-    {{ form.as_p }}
-    <p><input type="submit" value="{% trans "Place order" %}"></p>
-    {% csrf_token %}
-  </form>
+  <!-- /.row -->
+
+
+  <div class="row">  
+    <!-- Blog Entries Column -->
+    <div class="col-md-9">         
+      <!-- Blog Post -->
+      <div class="card-body"> 
+        
+        
+        <div class="basket-product">
+
+          
+          <div class="item">                
+            <div class="product-details">
+              <h1><strong> 
+                {% if cart.coupon %}                
+                {% with code=cart.coupon.code discount=cart.coupon.discount %}
+                  Coupon applied "{{ code }}" ({{ discount }}% off)
+                {% endwith %} 
+                
+              </strong></h1>                                    
+            </div>
+          </div>
+          
+          <div class="price"> {{ cart.get_discount|floatformat:2 }}</div>
+          {% endif %}   
+          <div class="quantity">
+            &nbsp;                              
+          </div>
+
+
+          <div class="subtotal">
+            {{cart.get_total_price_after_discount|floatformat:2 }} 
+          </div>              
+        </br>
+        </div>  
+    </div>  
+    </div>
+  </div>
+  <!-- /.row -->
+</br>
+<div class="row"> 
+<div class="col-lg-5">
+  <div class="card my-9">
+    <h5 class="card-header">Enter Shipping Details</h5>
+    <div class="card-body">
+      <div class="input-group">
+        <form method="post" class="order-form">
+          {{ form.as_p }}
+          <p><input type="submit" value="Submit Order" class="btn btn-secondary" ></p>
+          {% csrf_token %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</br>
+</div>
+<!-- /.container -->
 {% endblock %}

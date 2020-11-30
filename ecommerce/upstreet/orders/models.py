@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator, \
                                    MaxValueValidator
 
 from coupons.models import Coupon
-from shop.models import Product
+from store.models import Product
 
 
 # Create your models here.
